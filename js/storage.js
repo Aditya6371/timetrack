@@ -18,6 +18,7 @@ const Storage = {
       employeeId: '',
       defaultPayableHours: 8,
       payableHoursRule: 'fixed',
+      weeklyHoursGoal: 40,
       defaultShiftId: 'shift_1',
       theme: 'system',
     });

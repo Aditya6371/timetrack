@@ -153,7 +153,7 @@ const Components = {
     const shifts = Storage.getShifts();
     const settings = Storage.getSettings();
     const rec = record || {};
-    const statuses = ['Present', 'Absent', 'Half Day', 'Leave', 'Weekend', 'Checked In'];
+    const statuses = ['Present', 'Work from Home', 'Absent', 'Half Day', 'Leave', 'Weekend', 'Checked In'];
 
     const shiftOptions = shifts
       .map(

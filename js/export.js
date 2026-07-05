@@ -26,7 +26,7 @@ const Export = {
         Utils.excelDateFraction(row.date),
         row.checkIn ? Utils.excelTimeFraction(row.checkIn) : '',
         row.checkOut ? Utils.excelTimeFraction(row.checkOut) : '',
-        row.totalHours ? Utils.excelHoursFraction(row.totalHours) : (row.status === 'Present' || row.status === 'Checked In' ? Utils.excelHoursFraction(settings.defaultPayableHours) : 0),
+        row.totalHours ? Utils.excelHoursFraction(row.totalHours) : (row.status === 'Present' || row.status === 'Work from Home' || row.status === 'Checked In' ? Utils.excelHoursFraction(settings.defaultPayableHours) : 0),
         row.payableHours ? Utils.excelHoursFraction(row.payableHours) : 0,
         row.status || '',
         row.shift || '',

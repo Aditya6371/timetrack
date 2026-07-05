@@ -11,10 +11,28 @@ const Dashboard = {
   },
 
   updateClock() {
-    const el = document.getElementById('live-clock');
-    if (!el) return;
+    const wallEl = document.getElementById('wall-clock');
+    const workEl = document.getElementById('work-timer');
     const now = new Date();
-    el.textContent = `${Utils.pad(now.getHours())}:${Utils.pad(now.getMinutes())}:${Utils.pad(now.getSeconds())}`;
+
+    if (wallEl) {
+      wallEl.textContent = `${Utils.pad(now.getHours())}:${Utils.pad(now.getMinutes())}:${Utils.pad(now.getSeconds())}`;
+    }
+
+    if (!workEl) return;
+
+    const today = Utils.todayKey();
+    const record = Storage.getRecord(today);
+    let seconds = 0;
+
+    if (record?.checkIn && !record?.checkOut) {
+      seconds = (now - new Date(record.checkIn)) / 1000;
+    } else if (record?.checkIn && record?.checkOut) {
+      seconds = (new Date(record.checkOut) - new Date(record.checkIn)) / 1000;
+    }
+
+    workEl.textContent = Utils.formatDuration(seconds);
+    workEl.classList.toggle('is-live', !!(record?.checkIn && !record?.checkOut));
   },
 
   handleAction() {
@@ -37,6 +55,7 @@ const Dashboard = {
   statusBadgeClass(status) {
     const map = {
       Present: 'present',
+      'Work from Home': 'wfh',
       Absent: 'absent',
       'Half Day': 'half',
       Leave: 'leave',
@@ -52,6 +71,9 @@ const Dashboard = {
     const record = Storage.getRecord(today);
     const now = new Date();
     const stats = Attendance.getMonthStats(now.getFullYear(), now.getMonth() + 1);
+    const weekStats = Attendance.getWeekStats();
+    const weekGoal = settings.weeklyHoursGoal ?? 40;
+    const weekProgress = weekGoal > 0 ? Math.min(100, (weekStats.totalHours / weekGoal) * 100) : 0;
     const week = Attendance.getWeekStrip();
     const recent = Attendance.getRecentActivity(5);
     const name = settings.employeeName || 'there';
@@ -105,6 +127,18 @@ const Dashboard = {
     document.getElementById('checkin-time').textContent = record?.checkIn ? Utils.formatTime(record.checkIn) : '—';
     document.getElementById('checkout-time').textContent = record?.checkOut ? Utils.formatTime(record.checkOut) : '—';
     document.getElementById('shift-line').textContent = shift ? shift.label : '';
+
+    document.getElementById('week-hours-text').textContent =
+      `${Utils.formatHours(weekStats.totalHours)} / ${Utils.formatHours(weekGoal)}`;
+    const progressFill = document.getElementById('week-progress-fill');
+    const progressBar = document.getElementById('week-progress-bar');
+    if (progressFill) progressFill.style.width = `${weekProgress}%`;
+    if (progressBar) {
+      progressBar.setAttribute('aria-valuenow', Math.round(weekProgress));
+      progressBar.setAttribute('aria-valuetext', `${Utils.formatHours(weekStats.totalHours)} of ${Utils.formatHours(weekGoal)}`);
+    }
+
+    this.updateClock();
 
     const btn = document.getElementById('action-btn');
     btn.textContent = actionLabel;

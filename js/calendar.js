@@ -73,7 +73,7 @@ const CalendarPage = {
       if (!date) return;
       const status = this.getStatusForDate(date);
       cell.classList.remove(
-        'cal-status-present', 'cal-status-absent', 'cal-status-half',
+        'cal-status-present', 'cal-status-wfh', 'cal-status-absent', 'cal-status-half',
         'cal-status-leave', 'cal-status-weekend', 'cal-status-checkedin'
       );
       if (status) cell.classList.add(Utils.calStatusClass(status));

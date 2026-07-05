@@ -63,6 +63,7 @@ const API = {
           employeeId: s.employeeId || '',
           defaultPayableHours: Number(s.defaultPayableHours) || 8,
           payableHoursRule: s.payableHoursRule || 'fixed',
+          weeklyHoursGoal: Number(s.weeklyHoursGoal) || 40,
           defaultShiftId: s.defaultShiftId || 'shift_1',
           theme: s.theme || 'system',
         });

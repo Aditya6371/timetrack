@@ -70,6 +70,27 @@ const Utils = {
     return `${hrs}h ${mins}m`;
   },
 
+  formatDuration(totalSeconds) {
+    const secs = Math.max(0, Math.floor(totalSeconds));
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = secs % 60;
+    return `${this.pad(h)}:${this.pad(m)}:${this.pad(s)}`;
+  },
+
+  getWeekRange(date = new Date()) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diffToMonday = day === 0 ? -6 : 1 - day;
+    const monday = new Date(d);
+    monday.setDate(d.getDate() + diffToMonday);
+    monday.setHours(0, 0, 0, 0);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    sunday.setHours(23, 59, 59, 999);
+    return { start: monday, end: sunday };
+  },
+
   greeting() {
     const h = new Date().getHours();
     if (h < 12) return 'Good morning';
@@ -104,6 +125,7 @@ const Utils = {
   statusClass(status) {
     const map = {
       Present: 'badge-present',
+      'Work from Home': 'badge-wfh',
       Absent: 'badge-absent',
       'Half Day': 'badge-half',
       Leave: 'badge-leave',
@@ -116,6 +138,7 @@ const Utils = {
   calStatusClass(status) {
     const map = {
       Present: 'cal-status-present',
+      'Work from Home': 'cal-status-wfh',
       Absent: 'cal-status-absent',
       'Half Day': 'cal-status-half',
       Leave: 'cal-status-leave',
@@ -128,6 +151,7 @@ const Utils = {
   statusColor(status) {
     const map = {
       Present: 'var(--status-present)',
+      'Work from Home': 'var(--status-wfh)',
       Absent: 'var(--status-absent)',
       'Half Day': 'var(--status-half)',
       Leave: 'var(--status-leave)',

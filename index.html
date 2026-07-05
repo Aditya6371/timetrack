@@ -34,14 +34,31 @@
         <p id="date-line"></p>
       </div>
 
+      <section class="week-goal-card">
+        <div class="week-goal-header">
+          <div>
+            <div class="week-goal-title">This week</div>
+            <div class="week-goal-sub">Hours toward your weekly goal</div>
+          </div>
+          <div class="week-goal-value" id="week-hours-text">0h / 40h</div>
+        </div>
+        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="week-progress-bar">
+          <div class="progress-bar-fill" id="week-progress-fill"></div>
+        </div>
+      </section>
+
       <section class="today-card">
         <div class="today-card-header">
           <span class="today-card-label">Today</span>
-          <span class="status-badge" id="status-badge" style="display:none"></span>
+          <div class="today-card-header-right">
+            <span class="wall-clock" id="wall-clock" aria-label="Current time">00:00:00</span>
+            <span class="status-badge" id="status-badge" style="display:none"></span>
+          </div>
         </div>
 
         <div class="clock-display">
-          <div class="clock-time" id="live-clock">00:00:00</div>
+          <div class="clock-label">Hours worked</div>
+          <div class="clock-time work-timer" id="work-timer">00:00:00</div>
         </div>
 
         <div class="time-fields" id="time-fields">

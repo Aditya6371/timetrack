@@ -34,7 +34,7 @@ const Attendance = {
     if (settings.payableHoursRule === 'actual') {
       return Math.min(record.totalHours || 0, settings.defaultPayableHours);
     }
-    if (record.status === 'Present' || record.status === 'Half Day' || record.status === 'Checked In') {
+    if (record.status === 'Present' || record.status === 'Work from Home' || record.status === 'Half Day' || record.status === 'Checked In') {
       if (record.status === 'Half Day') return settings.defaultPayableHours / 2;
       return settings.defaultPayableHours;
     }
@@ -169,7 +169,7 @@ const Attendance = {
       if (rec) {
         totalHours += rec.totalHours || 0;
         payableHours += rec.payableHours || 0;
-        if (rec.status === 'Present' || rec.status === 'Checked In') present++;
+        if (rec.status === 'Present' || rec.status === 'Work from Home' || rec.status === 'Checked In') present++;
         else if (rec.status === 'Half Day') present += 0.5;
         else if (rec.status === 'Leave') leave++;
         else if (rec.status === 'Absent') absent++;
@@ -183,6 +183,28 @@ const Attendance = {
     const rate = workdays > 0 ? Math.round(((workdays - absent) / workdays) * 100) : 0;
 
     return { present, absent, leave, weekends, totalHours, payableHours, workdays, rate };
+  },
+
+  getWeekStats(date = new Date()) {
+    const { start, end } = Utils.getWeekRange(date);
+    const today = Utils.todayKey();
+    let totalHours = 0;
+    const d = new Date(start);
+
+    while (d <= end) {
+      const key = Utils.toDateKey(d);
+      const record = Storage.getRecord(key);
+      if (record?.checkIn) {
+        if (!record.checkOut && key === today) {
+          totalHours += Utils.hoursBetween(record.checkIn, new Date().toISOString());
+        } else {
+          totalHours += record.totalHours || Utils.hoursBetween(record.checkIn, record.checkOut);
+        }
+      }
+      d.setDate(d.getDate() + 1);
+    }
+
+    return { totalHours, start: Utils.toDateKey(start), end: Utils.toDateKey(end) };
   },
 
   getWeekStrip() {

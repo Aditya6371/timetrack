@@ -12,6 +12,7 @@ const SettingsPage = {
     document.getElementById('employee-name').value = settings.employeeName || '';
     document.getElementById('employee-id').value = settings.employeeId || '';
     document.getElementById('payable-hours').textContent = settings.defaultPayableHours;
+    document.getElementById('weekly-hours-goal').textContent = settings.weeklyHoursGoal ?? 40;
     document.getElementById('app-version').textContent = CONFIG.VERSION;
     document.getElementById('data-source').textContent =
       typeof API !== 'undefined' && API.enabled() ? 'Google Sheets' : 'Local storage';
@@ -91,6 +92,28 @@ const SettingsPage = {
         settings.defaultPayableHours += 0.5;
         Storage.saveSettings(settings);
         document.getElementById('payable-hours').textContent = settings.defaultPayableHours;
+        if (typeof API !== 'undefined') API.pushSettings();
+      }
+    });
+
+    document.getElementById('weekly-goal-minus').addEventListener('click', () => {
+      const settings = Storage.getSettings();
+      const goal = settings.weeklyHoursGoal ?? 40;
+      if (goal > 1) {
+        settings.weeklyHoursGoal = goal - 1;
+        Storage.saveSettings(settings);
+        document.getElementById('weekly-hours-goal').textContent = settings.weeklyHoursGoal;
+        if (typeof API !== 'undefined') API.pushSettings();
+      }
+    });
+
+    document.getElementById('weekly-goal-plus').addEventListener('click', () => {
+      const settings = Storage.getSettings();
+      const goal = settings.weeklyHoursGoal ?? 40;
+      if (goal < 168) {
+        settings.weeklyHoursGoal = goal + 1;
+        Storage.saveSettings(settings);
+        document.getElementById('weekly-hours-goal').textContent = settings.weeklyHoursGoal;
         if (typeof API !== 'undefined') API.pushSettings();
       }
     });
