@@ -8,7 +8,7 @@
  * 4. Deploy → New deployment → Web app
  *    - Execute as: Me
  *    - Who has access: Anyone
- * 5. Copy the Web App URL into js/config.js → API_URL
+ * 5. Copy the Web App URL into src/config.js → API_URL
  */
 
 const SHEETS = {

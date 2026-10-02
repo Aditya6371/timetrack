@@ -1,132 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#6366f1">
-  <meta name="description" content="Personal attendance tracking">
-  <title>TimeTrack</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
-</head>
-<body>
-  <div class="app-shell" id="app-shell">
-    <main class="main-content fade-in">
-
-      <header class="app-topbar">
-        <a href="index.html" class="brand">
-          <span class="brand-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </span>
-          <span class="brand-text">TimeTrack</span>
-        </a>
-        <div class="sync-badge local sync-badge--mobile" aria-live="polite">
-          <span class="sync-dot"></span><span>Local</span>
-        </div>
-      </header>
-
-      <div class="page-hero">
-        <h1 id="greeting">Good morning</h1>
-        <p id="date-line"></p>
-      </div>
-
-      <section class="week-goal-card">
-        <div class="week-goal-header">
-          <div>
-            <div class="week-goal-title">This week</div>
-            <div class="week-goal-sub">Hours toward your weekly goal</div>
-          </div>
-          <div class="week-goal-value" id="week-hours-text">0h / 40h</div>
-        </div>
-        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="week-progress-bar">
-          <div class="progress-bar-fill" id="week-progress-fill"></div>
-        </div>
-      </section>
-
-      <section class="today-card">
-        <div class="today-card-header">
-          <span class="today-card-label">Today</span>
-          <div class="today-card-header-right">
-            <span class="wall-clock" id="wall-clock" aria-label="Current time">00:00:00</span>
-            <span class="status-badge" id="status-badge" style="display:none"></span>
-          </div>
-        </div>
-
-        <div class="clock-display">
-          <div class="clock-label">Hours worked</div>
-          <div class="clock-time work-timer" id="work-timer">00:00:00</div>
-        </div>
-
-        <div class="time-fields" id="time-fields">
-          <div class="time-field">
-            <div class="time-field-label">Check in</div>
-            <div class="time-field-value" id="checkin-time">—</div>
-          </div>
-          <div class="time-field">
-            <div class="time-field-label">Check out</div>
-            <div class="time-field-value" id="checkout-time">—</div>
-          </div>
-        </div>
-
-        <p class="shift-info" id="shift-line"></p>
-        <button class="btn btn-primary" id="action-btn" type="button">Check in</button>
-      </section>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-value" id="stat-present">0</div>
-          <div class="stat-card-label">Present days</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-value" id="stat-hours">0h</div>
-          <div class="stat-card-label">Hours worked</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-value" id="stat-leave">0</div>
-          <div class="stat-card-label">Absent days</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-value" id="stat-rate">0%</div>
-          <div class="stat-card-label">Attendance</div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-header">
-          <h2 class="panel-title">This week</h2>
-          <a href="calendar.html" class="panel-link">View calendar</a>
-        </div>
-        <div class="panel-body">
-          <div class="week-strip" id="week-strip"></div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-header">
-          <h2 class="panel-title">Recent activity</h2>
-        </div>
-        <div class="panel-body">
-          <div class="activity-list" id="activity-list"></div>
-        </div>
-      </div>
-
-    </main>
-  </div>
-
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/api.js"></script>
-  <script src="js/attendance.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/components.js"></script>
-  <script src="js/dashboard.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#1E4D7B" />
+    <meta name="description" content="Personal attendance tracking" />
+    <title>TimeTrack</title>
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
