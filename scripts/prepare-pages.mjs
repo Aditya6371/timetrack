@@ -1,9 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
-
-const html = readFileSync('docs/index.html', 'utf8');
-if (!html.startsWith('---')) {
-  writeFileSync('docs/index.html', `---\nlayout: null\n---\n${html}`);
-}
+import { writeFileSync } from 'node:fs';
 
 writeFileSync(
   'docs/_config.yml',
