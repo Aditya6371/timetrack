@@ -42,6 +42,40 @@ const Utils = {
     return `${this.pad(d.getHours())}:${this.pad(d.getMinutes())}`;
   },
 
+  /** Mobile-friendly hour+minute selects (native type=time is flaky in modals on iOS). */
+  timeSelectHtml(id, valueHHMM = '', { allowEmpty = false } = {}) {
+    const [hh = '', mm = ''] = String(valueHHMM || '').split(':');
+    const emptyHour = allowEmpty
+      ? `<option value="" ${hh === '' ? 'selected' : ''}>—</option>`
+      : '';
+    const emptyMin = allowEmpty
+      ? `<option value="" ${mm === '' ? 'selected' : ''}>—</option>`
+      : '';
+    const hourOpts = Array.from({ length: 24 }, (_, i) => {
+      const v = this.pad(i);
+      const h12 = i % 12 || 12;
+      const ampm = i < 12 ? 'AM' : 'PM';
+      return `<option value="${v}" ${hh === v ? 'selected' : ''}>${h12} ${ampm}</option>`;
+    }).join('');
+    const minOpts = Array.from({ length: 60 }, (_, i) => {
+      const v = this.pad(i);
+      return `<option value="${v}" ${mm === v ? 'selected' : ''}>${v}</option>`;
+    }).join('');
+    return `
+      <div class="time-select" data-time-id="${id}">
+        <select class="form-select time-select-hour" id="${id}-hour" aria-label="Hour">${emptyHour}${hourOpts}</select>
+        <span class="time-select-sep" aria-hidden="true">:</span>
+        <select class="form-select time-select-minute" id="${id}-minute" aria-label="Minute">${emptyMin}${minOpts}</select>
+      </div>`;
+  },
+
+  readTimeSelect(id) {
+    const hour = document.getElementById(`${id}-hour`)?.value;
+    const minute = document.getElementById(`${id}-minute`)?.value;
+    if (hour === undefined || hour === '' || minute === undefined || minute === '') return null;
+    return `${hour}:${minute}`;
+  },
+
   inputToTimeToday(input) {
     const [h, m] = input.split(':').map(Number);
     const d = new Date();
@@ -170,9 +204,10 @@ const Utils = {
   },
 
   excelDateFraction(dateKey) {
-    const d = this.parseDateKey(dateKey);
-    const epoch = new Date(1899, 11, 30);
-    return (d - epoch) / 86400000;
+    // Use UTC for both sides so local/historical TZ offsets (e.g. Asia/Kolkata)
+    // don't produce a fractional serial that Excel floors to the previous day.
+    const [y, m, d] = dateKey.split('-').map(Number);
+    return (Date.UTC(y, m - 1, d) - Date.UTC(1899, 11, 30)) / 86400000;
   },
 
   excelTimeFraction(date) {

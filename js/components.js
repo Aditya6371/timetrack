@@ -174,11 +174,11 @@ const Components = {
       </p>
       <div class="form-group">
         <label class="form-label">Check-In</label>
-        <input type="time" class="form-input" id="edit-checkin" value="${rec.checkIn ? Utils.timeToInput(rec.checkIn) : ''}">
+        ${Utils.timeSelectHtml('edit-checkin', rec.checkIn ? Utils.timeToInput(rec.checkIn) : '', { allowEmpty: true })}
       </div>
       <div class="form-group">
         <label class="form-label">Check-Out</label>
-        <input type="time" class="form-input" id="edit-checkout" value="${rec.checkOut ? Utils.timeToInput(rec.checkOut) : ''}">
+        ${Utils.timeSelectHtml('edit-checkout', rec.checkOut ? Utils.timeToInput(rec.checkOut) : '', { allowEmpty: true })}
       </div>
       <div class="form-group">
         <label class="form-label">Status</label>
@@ -205,8 +205,8 @@ const Components = {
     this.openModal('Edit Attendance', this.editFormHtml(dateKey, record), (close) => {
       try {
         const updates = {
-          checkInTime: document.getElementById('edit-checkin').value || null,
-          checkOutTime: document.getElementById('edit-checkout').value || null,
+          checkInTime: Utils.readTimeSelect('edit-checkin'),
+          checkOutTime: Utils.readTimeSelect('edit-checkout'),
           status: document.getElementById('edit-status').value,
           shiftId: document.getElementById('edit-shift').value,
           comments: document.getElementById('edit-comments').value,

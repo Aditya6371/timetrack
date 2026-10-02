@@ -182,18 +182,18 @@ const SettingsPage = {
       </div>
       <div class="form-group">
         <label class="form-label">Start Time</label>
-        <input type="time" class="form-input" id="shift-start" value="${shift?.start || '09:00'}">
+        ${Utils.timeSelectHtml('shift-start', shift?.start || '09:00')}
       </div>
       <div class="form-group">
         <label class="form-label">End Time</label>
-        <input type="time" class="form-input" id="shift-end" value="${shift?.end || '18:00'}">
+        ${Utils.timeSelectHtml('shift-end', shift?.end || '18:00')}
       </div>
     `;
 
     Components.openModal(isEdit ? 'Edit Shift' : 'Add Shift', body, (close) => {
       const name = document.getElementById('shift-name').value.trim() || 'General';
-      const start = document.getElementById('shift-start').value;
-      const end = document.getElementById('shift-end').value;
+      const start = Utils.readTimeSelect('shift-start') || '09:00';
+      const end = Utils.readTimeSelect('shift-end') || '18:00';
 
       const format12 = (t) => {
         const [h, m] = t.split(':').map(Number);
