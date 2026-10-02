@@ -114,12 +114,12 @@ When you are ready to publish:
 
 ```bash
 npm run deploy:docs
-git add .
-git commit -m "TimeTrack v2.0.0"
+git add docs
+git commit -m "Publish TimeTrack v2.0.0"
 git push origin main
 ```
 
-GitHub Actions already deploys when `main` is pushed. `npm run deploy:docs` builds the site first so you catch errors before the push.
+`npm run deploy:docs` writes the site into `docs/`. GitHub Pages publishes that folder when `main` is pushed, so the folder has to be committed.
 
 ---
 
@@ -133,7 +133,7 @@ GitHub Actions already deploys when `main` is pushed. `npm run deploy:docs` buil
 | Apps Script code | `google-apps-script/Code.gs` |
 | Version | **v2.0.0** (sidebar, and `package.json`) |
 | Local testing | `npm run dev` |
-| Deploy | `npm run deploy:docs`, then push `main` |
+| Deploy | `npm run deploy:docs`, commit `docs/`, push `main` |
 
 ---
 
@@ -145,7 +145,7 @@ GitHub Actions already deploys when `main` is pushed. `npm run deploy:docs` buil
 | API returns HTML not JSON | Redeploy Web App; ensure URL ends with `/exec` |
 | Permission denied on setup | Run `setupSheets()` again and approve permissions |
 | Data not syncing | Check browser console (F12); verify "Anyone" access on deployment |
-| GitHub Pages 404 | Run `npm run deploy:docs`, push `main`, then check the Actions tab |
+| GitHub Pages failed on missing `docs` | Run `npm run deploy:docs`, commit `docs/`, push `main` |
 | Old data after script update | Deploy → New version in Apps Script |
 
 ---

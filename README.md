@@ -15,16 +15,16 @@ npm run dev
 
 ## Deploy
 
-GitHub Actions already publishes the site when you push `main`. Build first:
+GitHub Pages publishes the `docs` folder when you push `main`.
 
 ```bash
 npm run deploy:docs
-git add .
-git commit -m "TimeTrack v2.0.0"
+git add docs
+git commit -m "Publish TimeTrack v2.0.0"
 git push origin main
 ```
 
-`npm run deploy:docs` builds the site into `dist/`. Do not commit `dist`, `node_modules`, or `.env.local`.
+`npm run deploy:docs` builds the site into `docs/`. Commit that folder. Do not commit `node_modules` or `.env.local`.
 
 ## Docs
 

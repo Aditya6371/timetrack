@@ -27,27 +27,25 @@ Open the URL Vite prints, usually http://localhost:5173/.
 | Command | What it does |
 |---|---|
 | `npm run dev` | Local app. Reloads when you save. |
-| `npm run deploy:docs` | Builds the site you deploy. |
+| `npm run deploy:docs` | Builds the site into `docs/` for GitHub Pages. |
 | `npm run preview` | Opens the build so you can check it first. |
 
 ---
 
 ## Deploy
 
-GitHub Actions already publishes the site when you push `main`. You build first, then push.
+GitHub Pages publishes the `docs` folder on every push to `main`. That folder has to be in the repo. The last deploy failed because `docs` was missing.
 
 ```bash
 npm run deploy:docs
-git add .
-git commit -m "TimeTrack v2.0.0"
+git add docs
+git commit -m "Publish TimeTrack v2.0.0"
 git push origin main
 ```
 
-`npm run deploy:docs` writes the site into `dist/`. That folder is not committed. The action on `main` builds and publishes it.
+`npm run deploy:docs` builds the React app into `docs/`. Commit `docs`, then push. When the action is green, hard-refresh https://aditya6371.github.io/timetrack/.
 
-When the action is green, hard-refresh https://aditya6371.github.io/timetrack/.
-
-Do not commit `.env.local`, `node_modules`, or `dist`.
+Do not commit `.env.local` or `node_modules`.
 
 ---
 
@@ -61,7 +59,7 @@ Open the browser console with **Option + Command + I**, or read the terminal whe
 | Old site still showing | Unregister the service worker: Application → Service Workers → Unregister. Then hard-refresh. |
 | Badge says Local | Put the Apps Script URL in `src/config.js` (`API_URL`) or in `.env.local` as `VITE_API_URL`. Restart `npm run dev`. |
 | Sync fails on the live site | In Apps Script, set access to **Anyone** and deploy a new version. The URL must end with `/exec`. |
-| Live site is 404 or still the old app | Open the Actions tab on GitHub and read the failed step. Push `main` again after `npm run deploy:docs` succeeds locally. |
+| Action says `No such file or directory` for `/docs` | Run `npm run deploy:docs`, commit the `docs` folder, and push `main`. |
 | `npm run deploy:docs` fails | Fix the error it prints. Do not push until the build finishes. |
 
 Sheet setup is in [SETUP.md](SETUP.md).

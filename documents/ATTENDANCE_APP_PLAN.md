@@ -1,6 +1,6 @@
 # Attendance Management System
 
-**Shipped as TimeTrack v2.0.0.** This file is the original plan. The app you run is the React version in this repo. Day-to-day steps are in [GUIDE.md](GUIDE.md). Deploy with `npm run deploy:docs`, then push `main`. GitHub Actions publishes the site.
+**Shipped as TimeTrack v2.0.0.** This file is the original plan. The app you run is the React version in this repo. Day-to-day steps are in [GUIDE.md](GUIDE.md). Deploy with `npm run deploy:docs`, commit the `docs` folder, then push `main`. GitHub Pages publishes that folder.
 
 Live site: https://aditya6371.github.io/timetrack/
 
@@ -49,7 +49,7 @@ Excel Export
 | Database | Google Sheets |
 | API | Google Apps Script |
 | Excel Export | SheetJS (xlsx) |
-| Hosting | GitHub Pages. Deploy with `npm run deploy:docs`, then push `main` |
+| Hosting | GitHub Pages. `npm run deploy:docs`, commit `docs/`, push `main` |
 | Cost | $0 |
 
 ---
@@ -692,12 +692,12 @@ Future Enhancements:
 
 ```bash
 npm run deploy:docs
-git add .
-git commit -m "TimeTrack v2.0.0"
+git add docs
+git commit -m "Publish TimeTrack v2.0.0"
 git push origin main
 ```
 
-GitHub Actions already deploys when `main` is pushed.
+`npm run deploy:docs` builds the site into `docs/`. Commit that folder. GitHub Pages publishes it when `main` is pushed.
 
 ```text
 https://aditya6371.github.io/timetrack/
